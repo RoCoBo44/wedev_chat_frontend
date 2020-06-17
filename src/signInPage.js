@@ -37,7 +37,7 @@ function SignInPage (props){
 
             <div className= "askAccount">
                 <Route >
-                    <Link to="/signUp" small > Create an Account </Link>
+                    <Link to="/signUp" > Create an Account </Link>
                 </Route>
             </div>
         

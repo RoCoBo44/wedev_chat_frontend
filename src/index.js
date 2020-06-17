@@ -2,20 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import ApolloClient from 'apollo-boost';
-import { gql } from "apollo-boost";
 import { ApolloProvider } from '@apollo/react-hooks';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from './signupPage';
 import SignIn from './signInPage';
+import Home from './home';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
 });
 
 
-
+// https://www.apollographql.com/docs/react/data/mutations/#:~:text=To%20run%20a%20mutation%2C%20you,time%20to%20execute%20the%20mutation 
 /*
 client
   .query({
@@ -29,21 +29,19 @@ client
       }
     `
   })
-  .then(result => console.log(result)); // No me esta devolviendo el result, pero la query la hace 
-
-console.log(client)
+  .then(result => console.log(result)); 
 */
+
 
 const App = () => (
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <Route exact={true} path="/" render={() => <SignUp></SignUp>}></Route>
+      <Route exact={true} path="/home" render={() => <Home></Home>}></Route>
       <Route exact={true} path="/signup" render={() => <SignUp></SignUp>}></Route>
       <Route exact={true} path="/signin" render={() => <SignIn></SignIn>}></Route>
     </BrowserRouter>
   </ApolloProvider>
 );
-
 
 
 ReactDOM.render(

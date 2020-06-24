@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import {useForm} from "react-hook-form"
 import { Link,Route} from 'react-router-dom';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { graphql } from 'react-apollo'
 import { useState } from 'react'
 
@@ -24,13 +24,24 @@ const SIGN_IN = gql`
 `;
 
 function SignInPage (props){
+    const client = useApolloClient();
     const {register, handleSubmit, errors }  = useForm();
-    const [signIn_mutation, { data }] = useMutation(SIGN_IN);
     const [mutationError, setMutationError] = useState(false);
+    const [signIn_mutation] = useMutation(SIGN_IN, {
+        onCompleted( {signin} ) {
+            const {user, jwt, authError} = signin
+
+            localStorage.setItem("jwt", jwt);
+            localStorage.setItem("currentUser", JSON.stringify(user));
+            if (!authError){
+                client.writeData({ data: { jwt: jwt, currectUser: user} });
+            }
+        }
+      });
+
 
     const onSubmit = async (values) => {
         const response = await signIn_mutation({ variables: { data: {"username": values.username, "password" : values.password} } });
-        console.log(response);
         if (response.data.signin.authError == null){
             let url = "http://localhost:3000/home"
             window.location.href = url;

@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import {useForm} from "react-hook-form"
 import { Link,Route} from 'react-router-dom';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { graphql } from 'react-apollo'
 import { useState } from 'react'
 
@@ -26,9 +26,19 @@ const SIGN_UP = gql`
 `;
 
 function SignUpPage (props){
+    const client = useApolloClient();
     const {register, handleSubmit, errors }  = useForm();
-    const [signUp_mutation, { data }] = useMutation(SIGN_UP);
     const [mutationError, setMutationError] = useState(false);
+    const [signUp_mutation] = useMutation(SIGN_UP,{
+        onCompleted( {signup} ) {
+            const {user, jwt, authError} = signup
+            if (!authError){
+                localStorage.setItem("jwt", jwt);
+                localStorage.setItem("currentUser", JSON.stringify(user));
+                client.writeData({ data: { jwt: jwt, currectUser: user} });
+            }
+        }
+    });
 
     const onSubmit = async (values) => {
         const response = await signUp_mutation({ variables: { data: {"firstName" : values.firstname, "lastName": values.lastname, "username": values.username, "password" : values.password} } });
@@ -39,7 +49,7 @@ function SignUpPage (props){
             console.log("USER ALREADY EXISTS");
             setMutationError(true);
         }
-      }
+    }
     return (
     <Container className='form-wrapper'>
         <h1>Member Registration</h1>

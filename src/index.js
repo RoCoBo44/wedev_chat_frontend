@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from './components/signupPage';
 import SignIn from './components/signInPage';
 import Home from './components/home';
+import NavbarComp from "./components/navbar.js"
 
 //mandar a otro archivo 
 const typeDefs = gql`
@@ -28,8 +29,9 @@ const cache = new InMemoryCache();
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
   cache: cache,
+  headers: { authorization: "Bearer " + localStorage.getItem('jwt') },
   link: createHttpLink({
-    headers: { authorization: localStorage.getItem('jwt') },   
+    headers: { authorization: "Bearer" + localStorage.getItem('jwt') },   
     uri: 'http://localhost:3001/graphql',
   }),
 
@@ -44,13 +46,17 @@ cache.writeData({
   }
 });
 
+const view = (Page) => (
+  <div><NavbarComp></NavbarComp>{Page}</div>
+);
+
 const App = () => (
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <Route exact={true} path="/" render={() => <SignIn></SignIn>}></Route>
-      <Route exact={true} path="/home" render={() => <Home></Home>}></Route>
-      <Route exact={true} path="/signup" render={() => <SignUp></SignUp>}></Route>
-      <Route exact={true} path="/signin" render={() => <SignIn></SignIn>}></Route>
+      <Route exact={true} path="/" render={() => view(<SignIn></SignIn>)}></Route>
+      <Route exact={true} path="/home" render={() => view(<Home></Home>)}></Route>
+      <Route exact={true} path="/signup" render={() => view(<SignUp></SignUp>)}></Route>
+      <Route exact={true} path="/signin" render={() => view(<SignIn></SignIn>)}></Route>
     </BrowserRouter>
   </ApolloProvider>
 );

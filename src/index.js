@@ -14,7 +14,6 @@ import SignIn from './components/signInPage';
 import Home from './components/home';
 import NavbarComp from "./components/navbar.js"
 
-//mandar a otro archivo 
 const typeDefs = gql`
   extend type Query {
     jwt: String

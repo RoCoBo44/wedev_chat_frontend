@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -22,13 +21,11 @@ query currentU {
 
 
 function Home (props){
-    //const {username, firstName, lastName} = JSON.parse(localStorage.getItem("currentUser"));
     let firstName,lastName = "";
     const{ loading, error, data }= useQuery(CURRENT_USER);
-    //preguntar a roque porque parece que se ejecuta varias veces 
     if (!loading & !error){
-        firstName= data.currentUser.firstName
-        lastName= data.currentUser.lastName
+        firstName= data.currentUser.firstName;
+        lastName= data.currentUser.lastName;
     }
     return (
         <Container >

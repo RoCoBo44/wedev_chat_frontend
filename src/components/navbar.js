@@ -1,18 +1,29 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 
 function NavbarComp (props){
+
+    const handleSignoutClick = e => {
+        localStorage.removeItem("jwt");
+        localStorage.removeItem("currentUser");
+    }
+
+    const handleStopLink = e => {
+        if (!localStorage.getItem("jwt")){
+            document.getElementById("home_link").setAttribute("href", "/");
+        }
+    }
+
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-            <Navbar.Brand href="home">Home</Navbar.Brand>
+            <Navbar.Brand id="home_link" href="home" onClick={handleStopLink} > Home </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="signin">Sign In</Nav.Link>
-                    <Nav.Link href="signup">Sign Up</Nav.Link>
+                    <Nav.Link href="signin" onClick={handleSignoutClick} > Sign In </Nav.Link>
+                    <Nav.Link href="signup" onClick={handleSignoutClick} > Sign Up </Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

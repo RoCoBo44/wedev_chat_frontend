@@ -40,13 +40,13 @@ function SignUpPage (props){
         }
     });
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values,e) => {
+        if (values.firstname === '' || values.lastname === '' || values.username === '' || values.password === '' ) return ;
         const response = await signUp_mutation({ variables: { data: {"firstName" : values.firstname, "lastName": values.lastname, "username": values.username, "password" : values.password} } });
         if (response.data.signup.authError == null){
             let url = "http://localhost:3000/home"
             window.location.href = url;
-        }else if(response.data.signup.authError === "user already exists"){
-            console.log("USER ALREADY EXISTS");
+        }else if(response.data.signup.authError === "user exist"){
             setMutationError(true);
         }
     }

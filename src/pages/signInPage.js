@@ -3,48 +3,23 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 
-import {useForm} from "react-hook-form"
+import {useForm} from "react-hook-form" //En WeDev Usan Formik
 import { Link,Route} from 'react-router-dom';
-import gql from 'graphql-tag';
-import { useApolloClient, useMutation } from '@apollo/react-hooks';
-import { graphql } from 'react-apollo'
 import { useState } from 'react'
 
-const SIGN_IN = gql`
-    mutation login ($data: SigninInput!){
-        signin(data: $data){
-        user{
-            username
-            firstName
-            lastName
-        }
-        jwt
-        authError
-        }
-    }
-`;
+import useSignInMutation from "../hooks/useSignInMutations"
 
 function SignInPage (props){
-    const client = useApolloClient();
     const {register, handleSubmit, errors }  = useForm();
     const [mutationError, setMutationError] = useState(false);
-    const [signIn_mutation] = useMutation(SIGN_IN, {
-        onCompleted( {signin} ) {
-            const {user, jwt, authError} = signin
+    const {error, loading, signInUser} = useSignInMutation();
 
-            localStorage.setItem("jwt", jwt);
-            localStorage.setItem("currentUser", JSON.stringify(user));
-            if (!authError){
-                client.writeData({ data: { jwt: jwt, currectUser: user} });
-            }
-        }
-      });
 
 
     const onSubmit = async (values) => {
-        const response = await signIn_mutation({ variables: { data: {"username": values.username, "password" : values.password} } });
-        if (response.data.signin.authError == null){
-            let url = "http://localhost:3000/home"
+        const response = await signInUser(values);
+        if (response.signin.authError == null){
+            let url = "http://localhost:3000/home" //esto es super chancho, tengo que usar el history porque no siempre va al local host
             window.location.href = url;
         }else{
             console.log("Login error");
@@ -52,6 +27,8 @@ function SignInPage (props){
         }
     }
 
+
+    //Tengo que sacar esto a componentes 
     return (
         <Container className='form-wrapper'>
             <h1>Member Login</h1>
@@ -85,9 +62,7 @@ function SignInPage (props){
                 <Button type="submit">Sign In</Button>
 
                 <div className= "askAccount">
-                    <Route >
-                        <Link to="/signUp" > Create an Account </Link>
-                    </Route>
+                    <Link to="/signUp" > Create an Account </Link>
                 </div>
             
                 
@@ -97,4 +72,4 @@ function SignInPage (props){
     );
 }
 
-export default graphql(SIGN_IN)(SignInPage);
+export default (SignInPage);

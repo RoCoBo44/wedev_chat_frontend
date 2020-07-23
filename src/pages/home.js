@@ -1,31 +1,18 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Figure from 'react-bootstrap/Figure';
+import React from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Figure from 'react-bootstrap/Figure'
 
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
-
-
-const CURRENT_USER = gql`
-query currentU {
-    currentUser{
-      id
-      username
-      firstName
-      lastName
-    }
-  }
-`;
-
+import CURRENT_USER from '../apollo/queries/currentUser'
+import { useQuery } from '@apollo/react-hooks'
 
 function Home (props){
-    let firstName,lastName = "";
-    const{ loading, error, data }= useQuery(CURRENT_USER);
+    let firstName,lastName = ""
+    const{ loading, error, data }= useQuery(CURRENT_USER)
     if (!loading & !error){
-        firstName= data.currentUser.firstName;
-        lastName= data.currentUser.lastName;
+        firstName= data.currentUser.firstName
+        lastName= data.currentUser.lastName
     }
     return (
         <Container >
@@ -51,4 +38,5 @@ function Home (props){
     );
 }
 
-export default Home;
+
+export default Home

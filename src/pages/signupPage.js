@@ -6,47 +6,25 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import {useForm} from "react-hook-form"
 import { Link,Route} from 'react-router-dom';
-import gql from 'graphql-tag';
-import { useApolloClient, useMutation } from '@apollo/react-hooks';
-import { graphql } from 'react-apollo'
+
 import { useState } from 'react'
 
-const SIGN_UP = gql`
-    mutation SignUp ($data: SignupInput!) {
-        signup(data: $data) {
-        user{
-             firstName
-             lastName
-             username
-        }
-        authError
-        jwt
-        }
-    }
-`;
+import useSignUpMutation from "../hooks/useSignUpMutations"
+
 
 function SignUpPage (props){
-    const client = useApolloClient();
     const {register, handleSubmit, errors }  = useForm();
     const [mutationError, setMutationError] = useState(false);
-    const [signUp_mutation] = useMutation(SIGN_UP,{
-        onCompleted( {signup} ) {
-            const {user, jwt, authError} = signup
-            if (!authError){
-                localStorage.setItem("jwt", jwt);
-                localStorage.setItem("currentUser", JSON.stringify(user));
-                client.writeData({ data: { jwt: jwt, currectUser: user} });
-            }
-        }
-    });
+    const {error, loading, signUpUser} = useSignUpMutation();
 
     const onSubmit = async (values,e) => {
         if (values.firstname === '' || values.lastname === '' || values.username === '' || values.password === '' ) return ;
-        const response = await signUp_mutation({ variables: { data: {"firstName" : values.firstname, "lastName": values.lastname, "username": values.username, "password" : values.password} } });
-        if (response.data.signup.authError == null){
+        const response = await signUpUser(values);
+
+        if (response.signup.authError == null){
             let url = "http://localhost:3000/home"
             window.location.href = url;
-        }else if(response.data.signup.authError === "user exist"){
+        }else if(response.signup.authError === "user exist"){
             setMutationError(true);
         }
     }
@@ -60,7 +38,7 @@ function SignUpPage (props){
                         <Form.Control
                             type="string"
                             placeholder="First Name"
-                            name= {"firstname"}
+                            name= {"firstName"}
                             ref = {register({ required: true })}
                         />
                     </Form.Group>
@@ -70,7 +48,7 @@ function SignUpPage (props){
                         <Form.Control
                             type="text"
                             placeholder="Last Name"
-                            name= "lastname"
+                            name= "lastName"
                             ref = {register}
                         />
                     </Form.Group>
@@ -104,12 +82,9 @@ function SignUpPage (props){
             <Button type="submit">Sign Up</Button>
 
             <div className= "askAccount">
-            <Route >
                 <Link to="/signIn" > Do you have an account? </Link>
-            </Route>
             </div>
         
-            
         </Form>
 
     </Container>
@@ -117,4 +92,4 @@ function SignUpPage (props){
 }
 
 
-export default graphql(SIGN_UP)(SignUpPage);
+export default (SignUpPage);

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import ApolloClient from 'apollo-boost';
+import { onError } from 'apollo-link-error'
 import { ApolloProvider } from '@apollo/react-hooks';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -9,10 +10,10 @@ import { createHttpLink } from "apollo-link-http";
 import gql from "graphql-tag";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SignUp from './components/signupPage';
-import SignIn from './components/signInPage';
-import Home from './components/home';
-import NavbarComp from "./components/navbar.js"
+import SignUp from './pages/signupPage'; //Si hay una carpeta ya de una toma el idex.js de esa carpeta
+import SignIn from './pages/signInPage';
+import Home from './pages/home';
+import NavbarComp from "./pages/navbar.js"
 
 const typeDefs = gql`
   extend type Query {
@@ -33,7 +34,10 @@ const client = new ApolloClient({
     headers: { authorization: "Bearer" + localStorage.getItem('jwt') },   
     uri: 'http://localhost:3001/graphql',
   }),
-
+  onError: ({ networkError, graphQLErrors }) => {
+    console.log('graphQLErrors', graphQLErrors)
+    console.log('networkError', networkError)
+  },
   typeDefs,  
   resolvers
 });

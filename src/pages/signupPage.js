@@ -80,13 +80,13 @@ function SignUpPage (props){
             </Form.Group>
 
             <Button type="submit">Sign Up</Button>
-
-            <div className= "askAccount">
-                <Link to="/signIn" > Do you have an account? </Link>
-            </div>
         
         </Form>
-
+        
+        <div className= "askAccount">
+            <Link to="/signIn" > Do you have an account? </Link>
+        </div>
+        
     </Container>
     );
 }

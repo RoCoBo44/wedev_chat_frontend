@@ -14,8 +14,6 @@ function SignInPage (props){
     const [mutationError, setMutationError] = useState(false);
     const {error, loading, signInUser} = useSignInMutation();
 
-
-
     const onSubmit = async (values) => {
         const response = await signInUser(values);
         if (response.signin.authError == null){
@@ -26,7 +24,6 @@ function SignInPage (props){
             setMutationError(true);
         }
     }
-
 
     //Tengo que sacar esto a componentes 
     return (
@@ -60,13 +57,12 @@ function SignInPage (props){
                 }
 
                 <Button type="submit">Sign In</Button>
-
-                <div className= "askAccount">
-                    <Link to="/signUp" > Create an Account </Link>
-                </div>
-            
-                
+           
             </Form>
+
+            <div className= "askAccount">  
+                <Link to="/signUp" > Create an Account </Link>
+            </div>
 
         </Container>
     );

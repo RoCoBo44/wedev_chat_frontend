@@ -10,7 +10,7 @@ import { useQuery } from '@apollo/react-hooks'
 function Home (props){
     let firstName,lastName = ""
     const{ loading, error, data }= useQuery(CURRENT_USER)
-    if (!loading & !error){
+    if (!loading & !error ){
         firstName= data.currentUser.firstName
         lastName= data.currentUser.lastName
     }

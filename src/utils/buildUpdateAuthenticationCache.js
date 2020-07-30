@@ -5,7 +5,7 @@ const buildUpdateAuthenticationCache = (mutationName) => (cache, mutationResult)
     if (!authError){
         localStorage.setItem("jwt", jwt)
         localStorage.setItem("currentUser", JSON.stringify(user))
-        cache.writeData({ data: { jwt: jwt, currectUser: user} }) // TODO: currenct 
+        cache.writeData({ data: { jwt: jwt, currentUser: user} })
     }
 }
 

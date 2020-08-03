@@ -3,42 +3,37 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Figure from 'react-bootstrap/Figure'
+import useCurrentUserQuery from '../hooks/useCurrentUserQuery'
 
-import CURRENT_USER from '../apollo/queries/currentUser'
-import { useQuery } from '@apollo/react-hooks'
 
 function Home (props){
-    let firstName,lastName = ""
-    
-    const{ loading, error, data }= useQuery(CURRENT_USER)
-    if (!loading & !error){
-        console.log(loading, error, data)
-        firstName= data.currentUser.firstName
-        lastName= data.currentUser.lastName
+  const {loading, error, currentUser} = useCurrentUserQuery()
 
-    }
-    return (
-        <Container >
-            <h1>Home</h1>
-            <Container className="d-flex justify-content-center align-items-center">
-            <Row>
-                <Col >
-                <Figure>
-                    <Figure.Image
-                        width={171}
-                        height={180}
-                        alt="171x180"
-                        src="/images/dewi.png"
-                    />
-                </Figure>
-                </Col>
-                <Col >
-                    <h4> Hello, nice to see you again {firstName} {lastName} </h4>
-                </Col>
-            </Row>
-            </Container>
-        </Container>
-    );
+  if (loading) return null
+  if (error) return  'error '
+
+  return (
+    <Container >
+      <h1>Home</h1>
+      <Container className= 'd-flex justify-content-center align-items-center '>
+      <Row>
+        <Col >
+        <Figure>
+          <Figure.Image
+            width={171}
+            height={180}
+            alt= '171x180 '
+            src= '/images/dewi.png '
+          />
+        </Figure>
+        </Col>
+        <Col >
+          <h4> Hello, nice to see you again {currentUser.firstName} {currentUser.lastName} </h4>
+        </Col>
+      </Row>
+      </Container>
+    </Container>
+  ) 
 }
 
 

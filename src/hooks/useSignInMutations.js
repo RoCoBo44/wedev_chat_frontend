@@ -1,4 +1,4 @@
-import SIGN_IN from "../apollo/mutations/signIn"
+import SIGN_IN from  '../apollo/mutations/signIn'
 import { useApolloClient, useMutation } from '@apollo/react-hooks'
 import buildUpdateAuthenticationCache from '../utils/buildUpdateAuthenticationCache'
 
@@ -8,7 +8,7 @@ const useSignInMutation = () => {
   const signInUser = async (input) => {
     const { data } = await mutate({ variables: { data: input } })
 
-    return data 
+    return data && data.signin 
   }
 
   return {

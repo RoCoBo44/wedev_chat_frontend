@@ -1,38 +1,43 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
+import React from 'react' 
+import Container from 'react-bootstrap/Container' 
 
-import { Link,Route} from 'react-router-dom';
+import { Link,Route} from 'react-router-dom' 
 import { useState } from 'react'
-import { useHistory } from "react-router-dom";
+import { useHistory } from  'react-router-dom' 
 
-import useSignInMutation from "../hooks/useSignInMutations"
-import SignInForm from '../components/signInForm'
+import useSignInMutation from  '../hooks/useSignInMutations'
+import SignInForm from '../components/SignInForm'
 
 function SignInPage (props){
-    const [mutationError, setMutationError] = useState(false);
-    const {error, loading, signInUser} = useSignInMutation();
-    let history = useHistory();
+  const [mutationError, setMutationError] = useState(false) 
+  const { error, loading, signInUser } = useSignInMutation() 
+  const history = useHistory() 
 
-    const onSubmit = async (values) => {
-        const response = await signInUser(values);
-        if (!response.signin.authError){
-            history.push('/home')
-        }else{
-            console.log("Login error");
-            setMutationError(true);
-        }
+  const onSubmit = async (values) => {
+    const { authError } = await signInUser(values) 
+    if (authError){
+      setMutationError(true)
+      return undefined
     }
 
-    return (
-        <Container className='form-wrapper' >
-            <h1>Member Login</h1>
-            <SignInForm onSubmit = {onSubmit} mutationError={mutationError}> </SignInForm>
-            <div className= "askAccount">  
-                <Link to="/signUp" > Create an Account </Link>
-            </div>
+    history.push('/home')
+  }
 
-        </Container>
-    );
+  return (
+    <Container className='form-wrapper' >
+      <div id= 'bg'></div>
+      <div id='joinedform'>
+        <h1>Member Login</h1>
+        <SignInForm 
+          onSubmit={onSubmit} 
+          mutationError={mutationError} 
+        />
+        <div className= 'askAccount'>  
+          <Link to= '/signUp'>Create an Account</Link>
+        </div>
+      </div>
+    </Container>
+  ) 
 }
 
-export default (SignInPage);
+export default (SignInPage) 

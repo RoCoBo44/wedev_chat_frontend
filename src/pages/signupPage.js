@@ -1,38 +1,44 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
+import React from 'react' 
+import Container from 'react-bootstrap/Container' 
 
-import { Link,Route} from 'react-router-dom';
+import { Link,Route} from 'react-router-dom' 
 import { useState } from 'react'
-import { useHistory } from "react-router-dom";
+import { useHistory } from  'react-router-dom' 
 
-import useSignUpMutation from "../hooks/useSignUpMutations"
-import SignUpForm from '../components/signUpForm'
+import useSignUpMutation from  '../hooks/useSignUpMutations'
+import SignUpForm from '../components/SignUpForm'
 
 function SignUpPage (props){
-    const [mutationError, setMutationError] = useState(false);
-    const {error, loading, signUpUser} = useSignUpMutation();
-    let history = useHistory();
+  const [mutationError, setMutationError] = useState(false) 
+  const {error, loading, signUpUser} = useSignUpMutation() 
+  const history = useHistory() 
 
-    const onSubmit = async (values,e) => {
-        const response = await signUpUser(values);
+  const onSubmit = async (values,e) => {
+    const response = await signUpUser(values) 
 
-        if (response.signup.authError == null){
-            history.push('/home')
-        }else if(response.signup.authError === "user exist"){
-            setMutationError(true);
-        }
+    if (response.authError){
+      setMutationError(true) 
+      return undefined
     }
-    return (
-        <Container className='form-wrapper'>
-            <h1>Member Registration</h1>
-            <SignUpForm onSubmit = {onSubmit} mutationError={mutationError}></SignUpForm>
-            <div className= "askAccount">
-                <Link to="/signIn" > Do you have an account? </Link>
-            </div>
-            
-        </Container>
-    );
+    history.push('/home')
+  }
+
+  return (
+    <Container className='form-wrapper'>
+      <div id=  'bg'></div>
+      <div id= 'joinedform'>
+        <h1>Member Registration</h1>
+        <SignUpForm 
+          onSubmit = {onSubmit} 
+          mutationError={mutationError} 
+        />
+        <div className=  'askAccount'>
+          <Link to= '/signIn' > Do you have an account? </Link>
+        </div>
+      </div>
+    </Container>
+  ) 
 }
 
 
-export default (SignUpPage);
+export default (SignUpPage) 

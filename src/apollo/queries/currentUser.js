@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 const CURRENT_USER = gql`
-query currentU {
+  query currentU {
     currentUser{
       id
       username
@@ -9,6 +9,6 @@ query currentU {
       lastName
     }
   }
-`;
+` 
 
 export default CURRENT_USER

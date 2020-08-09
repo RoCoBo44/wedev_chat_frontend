@@ -15,21 +15,25 @@ function SignInForm ({onSubmit, mutationError}){
     >
       <Form id= 'form'>
         <div>
-          <Field name= 'username' type= 'text' className= 'form-input' placeholder= 'Username' />
-          <ErrorMessage name= 'username ' />
+          <Field name='username' type='text' className='form-input' placeholder='Username' />
+          <div className='form-error'>
+            <ErrorMessage  className='form-error' name= 'username' />
+          </div>
         </div>
         <div>
-          <Field name= 'password' type= 'text' className= 'form-input' placeholder= 'Password'  />
-          <ErrorMessage name= 'password' />
+          <Field name='password' type='password' className='form-input' placeholder='Password' />
+          <div className='form-error'>
+            <ErrorMessage name='password' />
+          </div>
         </div>
 
         {mutationError &&   
-          <div className= 'alert alert-dark' role= 'alert'>
+          <div className='alert alert-dark' role='alert'>
               Upsi dupsi, user or password is incorrect 
           </div>
         }
 
-        <Button type= 'submit'  className= 'btn btn-primary btn-sm' >Submit</Button>
+        <Button type='submit' >Submit</Button>
       </Form>
     </Formik>
   )

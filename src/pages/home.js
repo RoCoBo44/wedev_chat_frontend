@@ -10,20 +10,20 @@ function Home (props){
   const {loading, error, currentUser} = useCurrentUserQuery()
 
   if (loading) return null
-  if (error) return  'error '
+  if (error) return 'error'
 
   return (
     <Container >
       <h1>Home</h1>
-      <Container className= 'd-flex justify-content-center align-items-center '>
+      <Container className='d-flex justify-content-center align-items-center'>
       <Row>
         <Col >
         <Figure>
           <Figure.Image
             width={171}
             height={180}
-            alt= '171x180 '
-            src= '/images/dewi.png '
+            alt='171x180'
+            src='/images/dewi.png'
           />
         </Figure>
         </Col>

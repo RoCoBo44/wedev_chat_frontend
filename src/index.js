@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom' 
 import * as serviceWorker from './serviceWorker' 
 import { ApolloProvider } from '@apollo/react-hooks' 
-import { BrowserRouter, Route } from 'react-router-dom' 
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
+import { withRouter } from "react-router"; 
 
 import 'bootstrap/dist/css/bootstrap.min.css' 
 import './css/main.css' 
@@ -13,24 +14,33 @@ import NavbarComp from  './components/navbar.js'
 
 import client from './apollo/configurations/client' 
 
+import useCurrentUserQuery from './hooks/useCurrentUserQuery'
+
+const NavBarWithRouter = withRouter(NavbarComp);
 
 const withNavbar = (Page) => (
   <>
-    <NavbarComp />
+    <NavBarWithRouter />
     {Page}
   </>
 ) 
 
-const App = () => (
+const ProtectedHome = () => {
+  const { currentUser } = useCurrentUserQuery()
+  return currentUser ?  withNavbar(<Home/>) : withNavbar(<SignIn/>)
+}
+
+const App = () => {
+  return (
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <Route exact path= '/' render={() => withNavbar(<SignIn/>)} />
-      <Route exact path= '/home' render={() => withNavbar(<Home/>)} />
-      <Route exact path= '/signup' render={() => withNavbar(<SignUp/>)} />
-      <Route exact path= '/signin' render={() => withNavbar(<SignIn/>)} />
+      <Route exact path='/' render={() => <ProtectedHome/>} />
+      <Route exact path='/home' render={() => withNavbar(<Home/>)} />
+      <Route exact path='/signup' render={() => withNavbar(<SignUp/>)} />
+      <Route exact path='/signin' render={() => withNavbar(<SignIn/>)} />
     </BrowserRouter>
   </ApolloProvider>
-) 
+  )} 
 
 
 ReactDOM.render(

@@ -30,8 +30,8 @@ const cache = new InMemoryCache()
 
 cache.writeData({
   data: {
-    jwt: localStorage.getItem( 'jwt'),
-    currentUser: localStorage.getItem( 'currentUser'),
+    jwt: localStorage.getItem('jwt'),
+    currentUser: localStorage.getItem('currentUser'),
   }
 }) 
 

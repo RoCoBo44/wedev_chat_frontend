@@ -32,9 +32,7 @@ function SignInPage (props){
           onSubmit={onSubmit} 
           mutationError={mutationError} 
         />
-        <div className= 'askAccount'>  
-          <Link to= '/signUp'>Create an Account</Link>
-        </div>
+        <Link className= 'askAccount' to= '/signUp'>Create an Account</Link>
       </div>
     </Container>
   ) 

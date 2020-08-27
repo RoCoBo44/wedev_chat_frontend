@@ -5,8 +5,15 @@ import { setContext } from 'apollo-link-context'
 import {ApolloClient} from '@apollo/client' 
 import { onError } from 'apollo-link-error'
 
+<<<<<<< Updated upstream
 const httpLink = createHttpLink({
  uri: 'http://localhost:3001/graphql'
+=======
+const port = process.env.REACT_APP_PORT || 3001
+
+const httpLink = createHttpLink({
+ uri: `http://localhost:${port}/graphql`
+>>>>>>> Stashed changes
 }) 
 
 const authLink = setContext((_, { headers }) => {

@@ -1,0 +1,93 @@
+body, html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+}
+
+body #bg {
+  -webkit-clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+          clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+  background-color: #e9eaf8;
+  width: 80vw;
+  height: 88vh;
+  position: absolute;
+  z-index: -1;
+}
+
+body #joinedform {
+  border: 3px solid #523a70;
+  padding: 20px;
+  margin: 1em auto;
+  border-radius: 20px;
+  -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  color: black;
+  display: block;
+  text-align: center;
+}
+
+a {
+  color: #ecf1ff;
+  text-decoration: none;
+  background-color: transparent;
+  padding: 10px;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #dbc7ff;
+}
+
+.askAccount {
+  color: #7726d4;
+}
+
+.askAccount:hover {
+  color: #4e1daa;
+}
+
+.form-input {
+  width: 40%;
+  border: 2px solid #53438f;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.form-input:focus {
+  background-color: #b193f725;
+}
+
+.btn {
+  background: #7726d4;
+}
+
+.form-error {
+  color: #cc1010;
+  font-weight: 300;
+  font-size: 2vw;
+  font-size: 12px;
+}
+
+.form-error::before {
+  content: '';
+  height: 10px;
+  width: 10px;
+  background-color: rgba(158, 43, 235, 0.521);
+  border-radius: 60%;
+  display: inline-block;
+  margin-right: 4vw;
+}
+
+.form-error::after {
+  content: '';
+  margin-left: 4vw;
+  height: 10px;
+  width: 10px;
+  background-color: rgba(158, 43, 235, 0.521);
+  border-radius: 60%;
+  display: inline-block;
+}
+/*# sourceMappingURL=main.css.map */
